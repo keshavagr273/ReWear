@@ -7,9 +7,14 @@ const path      = require('path');
 const app = express();
 
 // ─── Database ─────────────────────────────────────────────────────────────────
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('✅ MongoDB connected'))
-  .catch((err) => console.error('❌ MongoDB connection error:', err));
+const mongoUri = (process.env.MONGO_URI || '').trim().replace(/^["']|["']$/g, '');
+if (!mongoUri) {
+  console.error('❌ MONGO_URI environment variable is missing or empty.');
+} else {
+  mongoose.connect(mongoUri)
+    .then(() => console.log('✅ MongoDB connected'))
+    .catch((err) => console.error('❌ MongoDB connection error:', err));
+}
 
 // ─── Middleware ───────────────────────────────────────────────────────────────
 const allowedOrigins = [
