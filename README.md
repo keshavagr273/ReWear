@@ -325,12 +325,10 @@ ReWear/
 
 ## 👥 Team Information
 
-- **Kapil Tanwar** (Team Leader) — [kapiltanwar340@gmail.com](mailto:kapiltanwar340@gmail.com)
 - **Keshav Agrawal** — [keshavagrawal273@gmail.com](mailto:keshavagrawal273@gmail.com)
+- **Kapil Tanwar** — [kapiltanwar340@gmail.com](mailto:kapiltanwar340@gmail.com)
 - **Ankur Kumar Verma** — [ankurvr988@gmail.com](mailto:ankurvr988@gmail.com)
 - **Rishabh Mirchandani** — [mirchandanirishab@gmail.com](mailto:mirchandanirishab@gmail.com)
-
-🎥 **Project Video Presentation**: [Watch on YouTube](https://youtu.be/KUt7kFuqXrA?si=PlzZgCR7fULVnQw5)
 
 ---
 
