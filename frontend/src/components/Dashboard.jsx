@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { apiUrl } from "../api/config.js";
 
 export default function Dashboard() {
   const [garments, setGarments] = useState([]);
@@ -31,7 +32,7 @@ export default function Dashboard() {
       try {
         if (token) {
           // Fetch user profile for points and name
-          const userRes = await fetch("/api/user/me", {
+          const userRes = await fetch(apiUrl("/api/user/me"), {
             headers: { Authorization: `Bearer ${token}` },
           });
           if (userRes.ok) {
@@ -39,7 +40,7 @@ export default function Dashboard() {
             setUserData(user);
           }
 
-          const ordRes = await fetch("/api/orders/my", {
+          const ordRes = await fetch(apiUrl("/api/orders/my"), {
             headers: { Authorization: `Bearer ${token}` },
           });
           if (ordRes.ok) {
@@ -48,7 +49,7 @@ export default function Dashboard() {
           }
         }
 
-        const prodRes = await fetch("/api/products");
+        const prodRes = await fetch(apiUrl("/api/products"));
         if (prodRes.ok) {
           const prods = await prodRes.json();
           if (Array.isArray(prods) && prods.length > 0) setGarments(prods);
@@ -73,7 +74,7 @@ export default function Dashboard() {
       if (selectedFile) {
         const formData = new FormData();
         formData.append("file", selectedFile);
-        const upRes = await fetch("/api/upload", {
+        const upRes = await fetch(apiUrl("/api/upload"), {
           method: "POST",
           headers: { Authorization: `Bearer ${token}` },
           body: formData,
@@ -84,7 +85,7 @@ export default function Dashboard() {
         }
       }
 
-      const res = await fetch("/api/products", {
+      const res = await fetch(apiUrl("/api/products"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -106,7 +107,7 @@ export default function Dashboard() {
       setGarments([data, ...garments]);
       setFormSuccess(true);
       // Re-fetch user data to reflect +10 pts awarded for listing
-      const refreshed = await fetch("/api/user/me", {
+      const refreshed = await fetch(apiUrl("/api/user/me"), {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (refreshed.ok) {
@@ -349,7 +350,7 @@ export default function Dashboard() {
                     (g.images && g.images[0]
                       ? g.images[0].startsWith("http")
                         ? g.images[0]
-                        : `/uploads/${g.images[0].split("/").pop()}`
+                        : apiUrl(`/uploads/${g.images[0].split("/").pop()}`)
                       : demoItems[0].image);
 
                   return (

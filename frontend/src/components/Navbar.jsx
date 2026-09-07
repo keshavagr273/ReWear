@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { apiUrl } from "../api/config.js";
 
 export default function Navbar({ minimal, onOpenListModal }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -14,7 +15,7 @@ export default function Navbar({ minimal, onOpenListModal }) {
 
   const fetchUserData = (t) => {
     if (t) {
-      fetch("/api/user/me", { headers: { Authorization: `Bearer ${t}` } })
+      fetch(apiUrl("/api/user/me"), { headers: { Authorization: `Bearer ${t}` } })
         .then((r) => (r.ok ? r.json() : null))
         .then((data) => {
           if (data) {

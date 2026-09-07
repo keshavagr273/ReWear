@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
+import { apiUrl } from "../api/config.js";
 
 /**
  * AdminRoute — wraps admin-only routes.
@@ -15,7 +16,7 @@ export default function AdminRoute({ children }) {
       setStatus("unauth");
       return;
     }
-    fetch("/api/user/me", {
+    fetch(apiUrl("/api/user/me"), {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((r) => r.ok ? r.json() : null)

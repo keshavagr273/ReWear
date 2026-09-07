@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
+import { apiUrl } from "../api/config.js";
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -50,7 +51,7 @@ export default function ProductDetail() {
       return;
     }
 
-    fetch(`/api/products/${id}`)
+    fetch(apiUrl(`/api/products/${id}`))
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
         if (data) {
@@ -80,7 +81,7 @@ export default function ProductDetail() {
     }
 
     try {
-      const res = await fetch("/api/orders", {
+      const res = await fetch(apiUrl("/api/orders"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -121,7 +122,7 @@ export default function ProductDetail() {
     p.images && p.images[activePhotoIndex]
       ? p.images[activePhotoIndex].startsWith("http")
         ? p.images[activePhotoIndex]
-        : `/uploads/${p.images[activePhotoIndex].split("/").pop()}`
+        : apiUrl(`/uploads/${p.images[activePhotoIndex].split("/").pop()}`)
       : fallbackProduct.images[0];
 
   return (

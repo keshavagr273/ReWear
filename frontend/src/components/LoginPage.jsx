@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Navbar from "./Navbar.jsx";
+import { apiUrl } from "../api/config.js";
 
 export default function LoginPage({ mode = "login" }) {
   const [isSignUp, setIsSignUp] = useState(mode === "signup");
@@ -50,7 +51,7 @@ export default function LoginPage({ mode = "login" }) {
     const payload = isSignUp ? { name, email, password } : { email, password };
 
     try {
-      const res = await fetch(endpoint, {
+      const res = await fetch(apiUrl(endpoint), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -79,7 +80,7 @@ export default function LoginPage({ mode = "login" }) {
     setForgotError("");
     setForgotLoading(true);
     try {
-      const res = await fetch("/api/auth/forgot-password", {
+      const res = await fetch(apiUrl("/api/auth/forgot-password"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: forgotEmail }),
@@ -99,7 +100,7 @@ export default function LoginPage({ mode = "login" }) {
     setForgotError("");
     setForgotLoading(true);
     try {
-      const res = await fetch(`/api/auth/reset-password/${forgotToken}`, {
+      const res = await fetch(apiUrl(`/api/auth/reset-password/${forgotToken}`), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password: newPassword }),

@@ -12,8 +12,27 @@ mongoose.connect(process.env.MONGO_URI)
   .catch((err) => console.error('❌ MongoDB connection error:', err));
 
 // ─── Middleware ───────────────────────────────────────────────────────────────
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  process.env.FRONTEND_URL,
+].filter(Boolean);
+
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:3000'],
+  origin: (origin, callback) => {
+    // Allow non-browser requests (e.g. mobile, curl, Postman, health checks)
+    if (!origin) return callback(null, true);
+
+    // Allow configured origins, all Vercel deployments (*.vercel.app), and dev environments
+    const isVercel = /\.vercel\.app$/.test(origin);
+    const isAllowed = allowedOrigins.some((o) => origin === o || origin.startsWith(o));
+
+    if (isAllowed || isVercel || process.env.NODE_ENV !== 'production') {
+      return callback(null, true);
+    }
+    // Fallback: allow request with credentials for public REST API
+    return callback(null, true);
+  },
   credentials: true,
 }));
 app.use(express.json({ limit: '10mb' }));

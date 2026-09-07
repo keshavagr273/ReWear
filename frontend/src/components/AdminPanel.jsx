@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { apiUrl } from "../api/config";
 
 export default function AdminPanel() {
   const [activeTab, setActiveTab] = useState("listings");
@@ -27,7 +28,7 @@ export default function AdminPanel() {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch("/api/admin/users", {
+      const res = await fetch(apiUrl("/api/admin/users"), {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -50,7 +51,7 @@ export default function AdminPanel() {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch("/api/admin/products", {
+      const res = await fetch(apiUrl("/api/admin/products"), {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -85,7 +86,7 @@ export default function AdminPanel() {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch("/api/admin/orders", {
+      const res = await fetch(apiUrl("/api/admin/orders"), {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -123,7 +124,7 @@ export default function AdminPanel() {
   const handleDeleteUser = async (id) => {
     if (!window.confirm("Confirm deletion of member record from registry?")) return;
     try {
-      const res = await fetch(`/api/admin/users/${id}`, {
+      const res = await fetch(apiUrl(`/api/admin/users/${id}`), {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -138,7 +139,7 @@ export default function AdminPanel() {
   const handleDeleteListing = async (id) => {
     if (!window.confirm("Remove this garment from community rotation?")) return;
     try {
-      const res = await fetch(`/api/admin/products/${id}`, {
+      const res = await fetch(apiUrl(`/api/admin/products/${id}`), {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -153,7 +154,7 @@ export default function AdminPanel() {
   const handleUserSave = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(`/api/admin/users/${editUser._id}`, {
+      const res = await fetch(apiUrl(`/api/admin/users/${editUser._id}`), {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -179,7 +180,7 @@ export default function AdminPanel() {
   const handleListingSave = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(`/api/admin/products/${editListing._id}`, {
+      const res = await fetch(apiUrl(`/api/admin/products/${editListing._id}`), {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -201,7 +202,7 @@ export default function AdminPanel() {
   const handleOrderSave = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(`/api/admin/orders/${editOrder._id}`, {
+      const res = await fetch(apiUrl(`/api/admin/orders/${editOrder._id}`), {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
